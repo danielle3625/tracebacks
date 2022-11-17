@@ -9,6 +9,7 @@ from pprint import pprint
 # See fibonnaci.md for my thought process breakdown
 
 def fib(n):
+    print('restart')
     pprint([helper(frameinfo.frame) for frameinfo in inspect.getouterframes(inspect.currentframe())][:-1])
     if n == 0 or n == 1:
         return n
