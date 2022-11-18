@@ -18,6 +18,11 @@ def trace(frame, event, arg):
         # The interpreter is about to execute a new line of code
         # arg is None
         # return value specifies the new local trace function
+        y = []
+        with open(filename) as file:
+            for x in file:
+                y.append(x)
+            print(y[lineno])
         return trace
     elif event == "return":
         # arg is the value that will be returned, or None if the event is caused by an exception being raised
@@ -60,3 +65,5 @@ def main():
     
 if __name__ == "__main__":
     main()
+
+main()
