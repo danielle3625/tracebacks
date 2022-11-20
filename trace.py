@@ -1,7 +1,10 @@
 import sys
 import inspect
-from pprint import pprint
 from collections import Counter
+from pprint import pprint
+import blackjack
+
+
 
 # Create an empty counter
 
@@ -30,7 +33,6 @@ def trace(frame, event, arg):
         with open(filename) as file:
             for x in file:
                 y.append(x)
-            print(y[lineno])
             counter[filename, lineno] += 1
         return trace
     elif event == "return":
@@ -53,10 +55,12 @@ def trace(frame, event, arg):
         
 
 def main():
-    sys.settrace(trace(frameinfo.frame, 'line', None) for frameinfo in inspect.getouterframes(inspect.currentframe())][:-1])
+    sys.settrace(trace(frameinfo.frame, 'line', None) for frameinfo in inspect.getouterframes(inspect.currentframe())[:-1])
+    blackjack.blackjack_play_game()
     
     
 if __name__ == "__main__":
     main()
 
 main()
+pprint(counter)
