@@ -1,6 +1,14 @@
 import sys
+import inspect
+from pprint import pprint
+from collections import Counter
 
-# This is an example to help understand sys.settrace
+# Create an empty counter
+
+counter = Counter()
+
+# Define the trace program. It will execute everytime sys.settrace is called.
+# We want to populate counter with 'filepath/lineno': count for every frame executed beneath the hood.
 
 def trace(frame, event, arg):
     lineno = frame.f_lineno
@@ -23,6 +31,7 @@ def trace(frame, event, arg):
             for x in file:
                 y.append(x)
             print(y[lineno])
+            counter[filename, lineno] += 1
         return trace
     elif event == "return":
         # arg is the value that will be returned, or None if the event is caused by an exception being raised
@@ -43,25 +52,9 @@ def trace(frame, event, arg):
         raise ValueError("Uknown trace event type")
         
 
-def demo():
-    for x in range(5):
-        y = x
-    
-    try:
-        raise ValueError
-    except ValueError:
-        return 12
-
-
 def main():
-    sys.settrace(trace)
+    sys.settrace(trace(frameinfo.frame, 'line', None) for frameinfo in inspect.getouterframes(inspect.currentframe())][:-1])
     
-    x = 2  # this won't be traced, since the trace function was not set before main() called
-    
-    demo()
-    
-    sys.settrace(None)
-
     
 if __name__ == "__main__":
     main()
