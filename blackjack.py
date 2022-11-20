@@ -278,4 +278,4 @@ def blackjack_play_game():
                 game_on = False
                 main_loop = False
                 break
-blackjack_play_game()
+
