@@ -65,11 +65,8 @@ def main():
 
     sys.settrace(trace)
     blackjack.blackjack_play_game()
+    LOG.info(counter)
     
     
 if __name__ == "__main__":
     main()
-
-main()
-print(counter)
-LOG.info(counter)
