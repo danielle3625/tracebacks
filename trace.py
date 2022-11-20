@@ -55,9 +55,6 @@ def trace(frame, event, arg):
         
 
 def main():
-    sys.settrace(trace)
-    blackjack.blackjack_play_game()
-
     root_logger = getLogger()
     root_logger.setLevel(DEBUG)
 
@@ -65,6 +62,9 @@ def main():
     handler.setLevel(DEBUG)
 
     root_logger.addHandler(handler)
+
+    sys.settrace(trace)
+    blackjack.blackjack_play_game()
     
     
 if __name__ == "__main__":
@@ -72,4 +72,4 @@ if __name__ == "__main__":
 
 main()
 print(counter)
-log.info(counter)
+LOG.info(counter)
