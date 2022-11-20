@@ -1,5 +1,5 @@
 import sys
-import inspect
+from pprint import pformat
 from collections import Counter
 from logging import getLogger, StreamHandler, DEBUG
 import blackjack
@@ -65,7 +65,8 @@ def main():
 
     sys.settrace(trace)
     blackjack.blackjack_play_game()
-    LOG.info(counter)
+    sys.settrace(None)
+    LOG.info(pformat(counter))
     
     
 if __name__ == "__main__":
