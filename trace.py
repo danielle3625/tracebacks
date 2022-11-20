@@ -1,10 +1,10 @@
 import sys
 import inspect
 from collections import Counter
-from pprint import pprint
+from logging import getLogger, StreamHandler, DEBUG
 import blackjack
 
-
+LOG = getLogger(__name__)
 
 # Create an empty counter
 
@@ -57,6 +57,14 @@ def trace(frame, event, arg):
 def main():
     sys.settrace(trace(frameinfo.frame, 'line', None) for frameinfo in inspect.getouterframes(inspect.currentframe())[:-1])
     blackjack.blackjack_play_game()
+
+    root_logger = getLogger()
+    root_logger.setLevel(DEBUG)
+
+    handler = StreamHandler()
+    handler.setLevel(DEBUG)
+
+    root_Logger.addHandler(handler)
     
     
 if __name__ == "__main__":
