@@ -18,7 +18,7 @@ def trace(frame, event, arg):
     filename = frame.f_code.co_filename
     
     info = f"TRACE: {event} - {filename}:{lineno}"
-    print(info)
+    LOG.debug(info)
     
     if event == "call":
         # A function is called
@@ -38,12 +38,12 @@ def trace(frame, event, arg):
     elif event == "return":
         # arg is the value that will be returned, or None if the event is caused by an exception being raised
         # return value is unused
-        print(f"  was exception: {arg is None}")
+        LOG.debug(f"  was exception: {arg is None}")
     elif event == "exception":
         # An exception has occurred
         # arg is a tuple: (exception, value, traceback)
         # return value specifies the new local trace function
-        print(f"  exc info: {arg}")
+        LOG.debug(f"  exc info: {arg}")
         return trace
     elif event == "opcode":
         # The interpreter is about to execute a new opcode
@@ -55,7 +55,7 @@ def trace(frame, event, arg):
         
 
 def main():
-    sys.settrace(trace(frameinfo.frame, 'line', None) for frameinfo in inspect.getouterframes(inspect.currentframe())[:-1])
+    sys.settrace(trace)
     blackjack.blackjack_play_game()
 
     root_logger = getLogger()
@@ -64,11 +64,12 @@ def main():
     handler = StreamHandler()
     handler.setLevel(DEBUG)
 
-    root_Logger.addHandler(handler)
+    root_logger.addHandler(handler)
     
     
 if __name__ == "__main__":
     main()
 
 main()
-pprint(counter)
+print(counter)
+log.info(counter)
