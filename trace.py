@@ -68,8 +68,12 @@ def main():
     blackjack.blackjack_play_game()
     sys.settrace(None)
     LOG.info(pformat(counter))
+
+    def json_dumps_tuple_keys(mapping):
+        string_keys = {json.dumps(k): v for k, v in mapping.items()}
+        return json.dumps(string_keys)
     
-    json_object = json.dumps(counter, indent=4)
+    json_object = json_dumps_tuple_keys(counter)
     with open("tracedata.json", 'w') as outfile:
         outfile.write(json_object)
     
