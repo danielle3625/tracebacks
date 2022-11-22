@@ -2,6 +2,7 @@ import sys
 from pprint import pformat
 from collections import Counter
 from logging import getLogger, StreamHandler, DEBUG
+import json
 import blackjack
 
 LOG = getLogger(__name__)
@@ -67,6 +68,10 @@ def main():
     blackjack.blackjack_play_game()
     sys.settrace(None)
     LOG.info(pformat(counter))
+    
+    json_object = json.dumps(counter, indent=4)
+    with open("tracedata.json", 'w') as outfile:
+        outfile.write(json_object)
     
     
 if __name__ == "__main__":
