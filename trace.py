@@ -71,7 +71,7 @@ def main():
 
     def json_dumps_tuple_keys(mapping):
         string_keys = {json.dumps(k): v for k, v in mapping.items()}
-        return json.dumps(string_keys)
+        return json.dumps(string_keys, indent=4)
     
     json_object = json_dumps_tuple_keys(counter)
     with open("tracedata.json", 'w') as outfile:
