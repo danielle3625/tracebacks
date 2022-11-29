@@ -1,6 +1,6 @@
 import sys
 from pprint import pformat
-from collections import Counter
+from collections import Counter, defaultdict
 from logging import getLogger, StreamHandler, DEBUG
 import json
 import blackjack
@@ -14,7 +14,7 @@ counter = Counter()
 
 # Store Global Time variable
 time_start = time.time_ns()
-time_counter = {'total_runtime': 00}
+time_counter = defaultdict(float)
 
 
 def time_elapsed():
@@ -38,12 +38,13 @@ def trace(frame, event, arg):
     info = f"TRACE: {event} - {filename}:{lineno}"
     LOG.debug(info)
 
-    time_counter['total_runtime'] += time_elapsed()
+    time_counter[filename, lineno] += time_elapsed()
 
     if event == "call":
         # A function is called
         # arg is None
-        # return value specifies the new local trace function
+        # return value specifies the new local trace
+        # function
         time_elapsed()
         return trace
     elif event == "line":
