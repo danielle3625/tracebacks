@@ -8,13 +8,20 @@ import time
 
 LOG = getLogger(__name__)
 
-# Create an empty counter
+# Create an empty counter 
+# Global dictionary with tuple keys
+# This will tracke linenum per filename
 
 counter = Counter()
 
 # Store Global Time variable
 time_start = time.time_ns()
+
+# Store Elapsed time values per frame
 time_counter = defaultdict(float)
+
+# Track previous file line, since time elapsed will track previous frame time
+fileline = 'firstframe'
 
 
 def time_elapsed():
@@ -32,13 +39,20 @@ def time_elapsed():
 # We want to populate counter with 'filepath/lineno': count for every frame executed beneath the hood.
 
 def trace(frame, event, arg):
+    global fileline
     lineno = frame.f_lineno
     filename = frame.f_code.co_filename
+  
     
     info = f"TRACE: {event} - {filename}:{lineno}"
     LOG.debug(info)
 
-    time_counter[filename, lineno] += time_elapsed()
+
+
+    time_counter[fileline] += time_elapsed()
+
+    
+    fileline = f'FILE NAME:{filename} LINENUM:{lineno}'
 
     if event == "call":
         # A function is called
