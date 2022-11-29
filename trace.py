@@ -11,7 +11,10 @@ LOG = getLogger(__name__)
 # Create an empty counter
 
 counter = Counter()
+
+# Store Global Time variable
 time_start = time.time_ns()
+time_counter = {'total_runtime': 00}
 
 
 def time_elapsed():
@@ -20,7 +23,9 @@ def time_elapsed():
 
     elapsed = current_time - time_start
 
-    print('Elapsed Time = ', elapsed)
+    time_start = time.time_ns()
+
+    return elapsed
 
 
 # Define the trace program. It will execute everytime sys.settrace is called.
@@ -32,7 +37,9 @@ def trace(frame, event, arg):
     
     info = f"TRACE: {event} - {filename}:{lineno}"
     LOG.debug(info)
-    
+
+    time_counter['total_runtime'] += time_elapsed()
+
     if event == "call":
         # A function is called
         # arg is None
@@ -43,31 +50,26 @@ def trace(frame, event, arg):
         # The interpreter is about to execute a new line of code
         # arg is None
         # return value specifies the new local trace function
-        time_elapsed()
         y = []
         with open(filename) as file:
             for x in file:
                 y.append(x)
             counter[filename, lineno] += 1
-        time_elapsed()
         return trace
     elif event == "return":
         # arg is the value that will be returned, or None if the event is caused by an exception being raised
         # return value is unused
         LOG.debug(f"  was exception: {arg is None}")
-        time_elapsed()
     elif event == "exception":
         # An exception has occurred
         # arg is a tuple: (exception, value, traceback)
         # return value specifies the new local trace function
         LOG.debug(f"  exc info: {arg}")
-        time_elapsed()
         return trace
     elif event == "opcode":
         # The interpreter is about to execute a new opcode
         # arg is None
         # return value specifies the new local trace function
-        time_elapsed()
         return trace
     else:
         raise ValueError("Uknown trace event type")
@@ -86,14 +88,17 @@ def main():
     blackjack.blackjack_play_game()
     sys.settrace(None)
     LOG.info(pformat(counter))
+    LOG.info(pformat(time_counter))
 
     def json_dumps_tuple_keys(mapping):
         string_keys = {json.dumps(k): v for k, v in mapping.items()}
         return json.dumps(string_keys, indent=4)
     
-    json_object = json_dumps_tuple_keys(counter)
+    json_object_filelines = json_dumps_tuple_keys(counter)
+    json_object_time = json_dumps_tuple_keys(time_counter)
     with open("tracedata.json", 'w') as outfile:
-        outfile.write(json_object)
+        outfile.write(json_object_filelines)
+        outfile.write(json_object_time)
     
     
 if __name__ == "__main__":
