@@ -3,7 +3,7 @@ from pprint import pformat
 from collections import Counter, defaultdict
 from logging import getLogger, StreamHandler, DEBUG
 import json
-import .blackjack
+from codeinsights import blackjack
 import time
 
 LOG = getLogger(__name__)
