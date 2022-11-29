@@ -3,7 +3,7 @@ from pprint import pformat
 from collections import Counter, defaultdict
 from logging import getLogger, StreamHandler, DEBUG
 import json
-from codeinsights import blackjack
+from .blackjack import blackjack_play_game
 import time
 
 LOG = getLogger(__name__)
@@ -100,7 +100,7 @@ def main():
     root_logger.addHandler(handler)
 
     sys.settrace(trace)
-    blackjack.blackjack_play_game()
+    blackjack_play_game()
     sys.settrace(None)
     LOG.info(pformat(counter))
     LOG.info(pformat(time_counter))
