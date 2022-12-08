@@ -75,6 +75,7 @@ def trace(frame, event, arg):
         # arg is the value that will be returned, or None if the event is caused by an exception being raised
         # return value is unused
         LOG.debug(f"  was exception: {arg is None}")
+        return trace
     elif event == "exception":
         # An exception has occurred
         # arg is a tuple: (exception, value, traceback)
