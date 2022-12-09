@@ -32,22 +32,22 @@ def test_line_event_records_fileline_multiple():
         trace(mock_frame, 'line', None)
         assert trace_counter['foo.py', 12] == 2
 
-def test_line_event_returns_trace ():
+def test_call_event_returns_trace ():
     mock_frame = Mock()
     expected = trace
     assert trace(mock_frame, 'call', None) == expected
 
-def test_line_event_returns_trace ():
+def test_return_event_returns_trace ():
     mock_frame = Mock()
     expected = trace
     assert trace(mock_frame, 'return', None) == expected
 
-def test_line_event_returns_trace ():
+def test_exception_event_returns_trace ():
     mock_frame = Mock()
     expected = trace
     assert trace(mock_frame, 'exception', None) == expected
 
-def test_line_event_returns_trace ():
+def test_opcode_event_returns_trace ():
     mock_frame = Mock()
     expected = trace
     assert trace(mock_frame, 'opcode', None) == expected
