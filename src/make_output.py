@@ -24,9 +24,9 @@ def make_output(filepaths, base_dir, output_dir):
 
             if path.endswith('.txt'):
                 path.replace('.txt', '.html')
-                output_dir.append(path)
             
-
-
+            with open("output", 'w') as outfile:
+                    outfile.write(path)
+  
 
 
