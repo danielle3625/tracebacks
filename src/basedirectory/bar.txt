@@ -1,0 +1,10 @@
+more data
+
+list = [1,2,3]
+
+def changelist(data):
+	for x in data:
+		x = x+1
+	return data
+
+changelist(list)
