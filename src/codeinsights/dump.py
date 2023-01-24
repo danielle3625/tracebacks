@@ -2,6 +2,7 @@ import os
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
+from shutil import rmtree
 
 
 def syntax_highlight(code):
@@ -12,6 +13,9 @@ def syntax_highlight(code):
 
 
 def make_output(filepaths, base_dir, output_dir):
+
+    rmtree(output_dir, ignore_errors=True)
+
     for src_path in filepaths:
         relpath = os.path.relpath(src_path, base_dir)
         outpath = os.path.join(output_dir, relpath)
