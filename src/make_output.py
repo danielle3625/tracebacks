@@ -1,4 +1,10 @@
 import os
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
+
+def syntax_highlight(code):
+    return highlight(code, PythonLexer(), HtmlFormatter())
 
 
 def make_output(filepaths, base_dir, output_dir):
@@ -15,7 +21,7 @@ def make_output(filepaths, base_dir, output_dir):
         with open(src_path, "r") as fin:
             contents = fin.read()
         
-        ...
+        syntax_highlight(contents)
         
         with open(dest_path, "w") as fout:
             fout.write(contents)
