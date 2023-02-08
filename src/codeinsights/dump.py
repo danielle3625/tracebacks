@@ -12,11 +12,11 @@ def syntax_highlight(code):
     return result
 
 
-def make_output(filepaths, base_dir, output_dir):
+def make_output(timing, base_dir, output_dir):
 
     rmtree(output_dir, ignore_errors=True)
 
-    for src_path in filepaths:
+    for src_path in timing.keys():
         relpath = os.path.relpath(src_path, base_dir)
         outpath = os.path.join(output_dir, relpath)
         
@@ -34,3 +34,12 @@ def make_output(filepaths, base_dir, output_dir):
         with open(dest_path, "w") as fout:
             fout.write(contents)
 
+def split_html_lines(html):
+    
+    splat = html.split("\n")
+    lines = {}
+    for line in splat:
+        lines[line] = syntax_highlight(html)
+    return lines
+
+    
